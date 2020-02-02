@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -e
+
+new_dir=$(dirname "$2")
+if [ ! -d "$new_dir" ]; then
+    mkdir -p "$new_dir"
+fi
+mv "$1" "$2"

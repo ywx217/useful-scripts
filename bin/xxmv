@@ -1,0 +1,24 @@
+#!/bin/bash
+# batch rename files
+
+set -e
+
+f_orig_list=$(mktemp)
+f_new_list=$(mktemp)
+
+# list all files
+find . -type f $@ | grep -v '^\(\.\|\.\.\)$' | tee $f_orig_list > $f_new_list
+# edit
+vi $f_new_list
+
+# rename
+orig_lines=$(wc -l $f_orig_list | awk '{print $1}')
+new_lines=$(wc -l $f_new_list | awk '{print $1}')
+if [ $orig_lines -ne $new_lines ]; then
+    echo "file name count not match ($orig_lines != $new_lines)!"
+    exit 1
+fi
+
+paste -d ':' $f_orig_list $f_new_list \
+    | awk -F ':' '{if($1 != $2) printf("\"%s\" \"%s\"\n", $1, $2);}' \
+    | xargs -L1 xmv
