@@ -1,0 +1,16 @@
+#!/bin/bash
+# display rotation
+
+function usage {
+    echo "$0 degree"
+    echo '    script for rotating screen on OSX'
+}
+
+if [ $# -lt 1 ]; then
+    usage
+    exit 0
+fi
+
+degree=$1
+sid=FCA86DDB-6F50-1697-E65E-555D250041FF
+displayplacer "id:${sid} degree:${degree}"

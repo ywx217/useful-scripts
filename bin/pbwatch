@@ -1,0 +1,16 @@
+#!/bin/bash
+# keep watching from `pbpaste` and print to stdout
+
+set -e
+
+last_pb=""
+
+while true; do
+    pb=$(pbpaste)
+    if [ "X$last_pb" = "X$pb" ]; then
+        sleep 0.2
+    else
+        last_pb="$pb"
+        echo $pb
+    fi
+done
